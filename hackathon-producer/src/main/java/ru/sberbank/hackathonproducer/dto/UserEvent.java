@@ -11,8 +11,8 @@ public class UserEvent {
     private Long id;
     private Long userId;
     private Long doorId;
-    private Long exitDoorId;
-    private Long entryDoorId;
+    private Long exitRoomId;
+    private Long entryRoomId;
 
     @Setter(AccessLevel.NONE)
     private Timestamp createdAt;

@@ -23,10 +23,10 @@ public class HackathonProducerApplication implements CommandLineRunner {
 			Thread.sleep(2000);
 			UserEvent userEvent = new UserEvent();
 			userEvent.setId((long) ((Math.random() * ((100 - 1) + 1)) + 1));
-			userEvent.setUserId((long) ((Math.random() * ((100 - 1) + 1)) + 1));
-			userEvent.setDoorId((long) ((Math.random() * ((100 - 1) + 1)) + 1));
-			userEvent.setEntryDoorId((long) ((Math.random() * ((100 - 1) + 1)) + 1));
-			userEvent.setExitDoorId((long) ((Math.random() * ((100 - 1) + 1)) + 1));
+			userEvent.setUserId((long) ((Math.random() * ((10 - 1) + 1)) + 1));
+			userEvent.setDoorId((long) ((Math.random() * ((5 - 1) + 1)) + 1));
+			userEvent.setEntryRoomId((long) ((Math.random() * ((6 - 1) + 1)) + 1));
+			userEvent.setExitRoomId((long) ((Math.random() * ((6 - 1) + 1)) + 1));
 			producerService.produce(userEvent);
 		}
 	}
