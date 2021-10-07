@@ -1,9 +1,12 @@
 package ru.sberbank.hackathonconsumer.entities;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
-@Table(name="Arm")
+@Table(name="arm")
 public class Arm {
 
     @Id
@@ -11,7 +14,6 @@ public class Arm {
 
     private String status;
 
-    @OneToOne
-    @JoinColumn(name="router_id")
-    private Long router;
+    @ManyToOne
+    private Router router;
 }
