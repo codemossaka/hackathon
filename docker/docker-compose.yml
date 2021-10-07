@@ -1,0 +1,121 @@
+version: '2.1'
+
+services:
+  hackathon_producer:
+    container_name: hackathon_producer
+    build:
+      context: ../hackathon-producer
+      dockerfile: ./docker/Dockerfile
+    working_dir: /producerservice
+    environment:
+      - EUREKA_INSTANCE_HOSTNAME=${HOSTNAME}
+      - REGISTRY_HOST=eurekaservice
+    tty: true
+    volumes:
+      - ../producer-service:/producerservice
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    command: mvn clean spring-boot:run
+    networks:
+      - hackathon_bridge
+
+  dbconsumer:
+    container_name: hackathon_db_consumer
+    image: postgres:latest
+    restart: unless-stopped
+    networks:
+      - hackathon_bridge
+    tty: true
+    environment:
+      - POSTGRES_USER=${POSTGRES_DATABASE_USER_CONSUMER}
+      - POSTGRES_PASSWORD=${POSTGRES_DATABASE_PASSWORD_CONSUMER}
+      - POSTGRES_DB=${POSTGRES_DATABASE_NAME_CONSUMER}
+    expose:
+      - "5438"
+    volumes:
+      - ../../config/postgress/consumer:/var/lib/postgresql/data/
+
+
+  consumerservice:
+    hostname: consumerservice
+    container_name: hackathon_consumer
+    build:
+      context: ../hackathon-consumer
+      dockerfile: ./docker/Dockerfile
+    working_dir: /consumerservice
+    environment:
+      - EUREKA_INSTANCE_HOSTNAME=${HOSTNAME}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://dbconsumer:5432/${POSTGRES_DATABASE_NAME_CONSUMER}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_DATABASE_USER_CONSUMER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_DATABASE_PASSWORD_CONSUMER}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - REGISTRY_HOST=eurekaservice
+    volumes:
+      - ../consumer-service:/consumerservice
+    tty: true
+    restart: unless-stopped
+    expose:
+      - "8086"
+    networks:
+      - hackathon_bridge
+    command: mvn clean spring-boot:run
+    depends_on:
+      - dbconsumer
+
+  portainer:
+    container_name: hackathon_hackathon_portainer
+    image: portainer/portainer-ce
+    tty: true
+    restart: unless-stopped
+    networks:
+      - hackathon_bridge
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../../config/portainer-data:/data
+    ports:
+      - "1111:9000"
+
+  zoo1:
+    image: zookeeper:3.4.9
+    hostname: zoo1
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_PORT: 2181
+      ZOO_SERVERS: server.1=zoo1:2888:3888
+    volumes:
+      - ../../config/zoo1/data:/data
+      - ../../config/zoo1/datalog:/datalog
+    networks:
+      - hackathon_bridge
+
+  kafka1:
+    image: confluentinc/cp-kafka:5.5.1
+    hostname: kafka1
+    ports:
+      - "9092:9092"
+      - "9999:9999"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_JMX_PORT: 9999
+      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-127.0.0.1}
+    volumes:
+      - ../../config/kafka1/data:/var/lib/kafka/data
+    depends_on:
+      - zoo1
+    networks:
+      - hackathon_bridge
+
+networks:
+  hackathon_bridge:
+    driver: bridge
