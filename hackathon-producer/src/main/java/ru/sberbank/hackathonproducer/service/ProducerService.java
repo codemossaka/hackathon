@@ -4,19 +4,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import ru.sberbank.hackathonproducer.dto.UserEvent;
 
 @Service
 @RequiredArgsConstructor
 public class ProducerService {
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate<String, UserEvent> kafkaTemplate;
 
     @Value("${spring.kafka.template.default-topic}")
     private String topic;
 
 
 
-    public void produce(){
-        kafkaTemplate.send(topic, "fjfbjfdyfkefykfvyrtf");
+    public void produce(UserEvent userEvent){
+        kafkaTemplate.send(topic, userEvent);
     }
 }
