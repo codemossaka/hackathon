@@ -99,7 +99,7 @@ services:
     ports:
       - "80:80"
     networks:
-      - speedma_bridge
+      - hackathon_bridge
 networks:
   hackathon_bridge:
     driver: bridge
