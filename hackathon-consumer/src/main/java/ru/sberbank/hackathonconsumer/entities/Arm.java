@@ -1,4 +1,4 @@
-package ru.sberbank.hackathonconsumer.entity;
+package ru.sberbank.hackathonconsumer.entities;
 
 import lombok.Data;
 
