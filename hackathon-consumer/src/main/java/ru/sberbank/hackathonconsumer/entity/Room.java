@@ -4,8 +4,9 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@Entity
 @Data
+@Entity
+@Table(name="room")
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

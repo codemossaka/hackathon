@@ -2,8 +2,8 @@ package ru.sberbank.hackathonconsumer.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.sberbank.hackathonconsumer.entity.User;
+import ru.sberbank.hackathonconsumer.entity.Arm;
 
 @Repository
-public interface UserRepository  extends JpaRepository<User, Long> {
+public interface ArmRepository extends JpaRepository<Arm, Long> {
 }

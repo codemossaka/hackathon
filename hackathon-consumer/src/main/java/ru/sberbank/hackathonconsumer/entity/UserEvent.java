@@ -7,26 +7,23 @@ import java.sql.Date;
 
 @Data
 @Entity
+@Table(name = "userEvent")
 public class UserEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", table = "User")
-    private User userId;
+    @ManyToOne
+    private User user;
 
-    @OneToOne
-    @JoinColumn(name = "door_id", table = "Router")
-    private Long doorId;
+    @ManyToOne
+    private Door door;
 
-    @OneToOne
-    @JoinColumn(name = "room_id", table = "Room")
-    private Room exitRoom;
+    @ManyToOne
+    private Room exit;
 
-    @OneToOne
-    @JoinColumn(name = "room_id", table = "Room")
-    private Room entryRoom;
+    @ManyToOne
+    private Room entry;
 
-    private Date time;
+    private Date createdAt;
 }

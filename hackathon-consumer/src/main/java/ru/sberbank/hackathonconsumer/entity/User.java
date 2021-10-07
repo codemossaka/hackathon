@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "user", schema = "public")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,10 +14,8 @@ public class User {
     private String fullname;
 
     @OneToOne
-    @JoinColumn(name="router_id", table = "Router")
-    private Long armId;
+    private Arm arm;
 
-    @OneToOne
-    @JoinColumn(name="router_id", table = "Router")
-    private Long phoneRouterId;
+    @ManyToOne
+    private Router router;
 }
