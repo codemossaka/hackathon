@@ -68,7 +68,27 @@
         stompClient.connect({}, function (frame) {
             setConnected(true);
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/messages', function (sendDoor) {
+            stompClient.subscribe('/topic/arm', function (sendDoor) {
+                console.log("Essonga ", JSON.parse(sendDoor.body))
+                showGreeting(JSON.parse(sendDoor.body));
+            });
+            stompClient.subscribe('/topic/door', function (sendDoor) {
+                console.log("Essonga ", JSON.parse(sendDoor.body))
+                showGreeting(JSON.parse(sendDoor.body));
+            });
+            stompClient.subscribe('/topic/router', function (sendDoor) {
+                console.log("Essonga ", JSON.parse(sendDoor.body))
+                showGreeting(JSON.parse(sendDoor.body));
+            });
+            stompClient.subscribe('/topic/room', function (sendDoor) {
+                console.log("Essonga ", JSON.parse(sendDoor.body))
+                showGreeting(JSON.parse(sendDoor.body));
+            });
+            stompClient.subscribe('/topic/user', function (sendDoor) {
+                console.log("Essonga ", JSON.parse(sendDoor.body))
+                showGreeting(JSON.parse(sendDoor.body));
+            });
+            stompClient.subscribe('/topic/userEvent', function (sendDoor) {
                 console.log("Essonga ", JSON.parse(sendDoor.body))
                 showGreeting(JSON.parse(sendDoor.body));
             });
@@ -85,6 +105,11 @@
 
     function sendName() {
         stompClient.send("/app/door", {}, JSON.stringify({'name': $("#name").val()}));
+        stompClient.send("/app/arm", {}, JSON.stringify({'name': $("#name").val()}));
+        stompClient.send("/app/router", {}, JSON.stringify({'name': $("#name").val()}));
+        stompClient.send("/app/room", {}, JSON.stringify({'name': $("#name").val()}));
+        stompClient.send("/app/user", {}, JSON.stringify({'name': $("#name").val()}));
+        stompClient.send("/app/userEvent", {}, JSON.stringify({'name': $("#name").val()}));
     }
 
     function showGreeting(message) {
