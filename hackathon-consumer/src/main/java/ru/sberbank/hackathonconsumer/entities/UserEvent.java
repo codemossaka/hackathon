@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -26,5 +27,5 @@ public class UserEvent {
     @ManyToOne
     private Room entry;
 
-    private Date createdAt;
+    private Timestamp createdAt;
 }
