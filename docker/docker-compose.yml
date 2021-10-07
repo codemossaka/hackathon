@@ -15,7 +15,7 @@ services:
       - ../producer-service:/producerservice
     restart: unless-stopped
     ports:
-      - "8888:8888"
+      - "8888:8080"
     command: mvn clean spring-boot:run
     networks:
       - hackathon_bridge
@@ -38,7 +38,6 @@ services:
 
 
   consumerservice:
-    hostname: consumerservice
     container_name: hackathon_consumer
     build:
       context: ../hackathon-consumer
@@ -55,8 +54,8 @@ services:
       - ../consumer-service:/consumerservice
     tty: true
     restart: unless-stopped
-    expose:
-      - "8086"
+    ports:
+      - "8080:8080"
     networks:
       - hackathon_bridge
     command: mvn clean spring-boot:run
