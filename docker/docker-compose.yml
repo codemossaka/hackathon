@@ -62,19 +62,6 @@ services:
     depends_on:
       - dbconsumer
 
-  portainer:
-    container_name: hackathon_hackathon_portainer
-    image: portainer/portainer-ce
-    tty: true
-    restart: unless-stopped
-    networks:
-      - hackathon_bridge
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ../../config/portainer-data:/data
-    ports:
-      - "1111:9000"
-
   zoo1:
     image: zookeeper:3.4.9
     hostname: zoo1
