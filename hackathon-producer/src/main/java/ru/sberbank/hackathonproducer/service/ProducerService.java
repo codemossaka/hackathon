@@ -12,12 +12,12 @@ public class ProducerService {
 
     private final KafkaTemplate<String, UserEvent> kafkaTemplate;
 
-    @Value("${spring.kafka.template.default-topic}")
-    private String topic;
+//    @Value("${spring.kafka.template.default-topic}")
+    private final String TOPIC ="user-event";
 
 
 
     public void produce(UserEvent userEvent){
-        kafkaTemplate.send(topic, userEvent);
+        kafkaTemplate.send(TOPIC, userEvent);
     }
 }
