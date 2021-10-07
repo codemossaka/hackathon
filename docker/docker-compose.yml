@@ -8,6 +8,7 @@ services:
       dockerfile: ./docker/Dockerfile
     working_dir: /producerservice
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_INSTANCE_HOSTNAME=${HOSTNAME}
       - REGISTRY_HOST=eurekaservice
     tty: true
@@ -31,8 +32,8 @@ services:
       - POSTGRES_USER=${POSTGRES_DATABASE_USER}
       - POSTGRES_PASSWORD=${POSTGRES_DATABASE_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DATABASE_NAME}
-    expose:
-      - "5438"
+    ports:
+      - "5455:5432"
     volumes:
       - ../../config/postgress/consumer:/var/lib/postgresql/data/
 
@@ -44,6 +45,7 @@ services:
       dockerfile: ./docker/Dockerfile
     working_dir: /consumerservice
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_INSTANCE_HOSTNAME=${HOSTNAME}
       - SPRING_DATASOURCE_URL=jdbc:postgresql://dbconsumer:5432/${POSTGRES_DATABASE_NAME}
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_DATABASE_USER}
