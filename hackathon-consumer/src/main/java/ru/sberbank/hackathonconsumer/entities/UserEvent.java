@@ -9,6 +9,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "userEvent")
 public class UserEvent {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

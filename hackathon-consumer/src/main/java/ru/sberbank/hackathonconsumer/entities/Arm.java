@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="arm")
+@Table(name = "arm")
 public class Arm {
 
     @Id
