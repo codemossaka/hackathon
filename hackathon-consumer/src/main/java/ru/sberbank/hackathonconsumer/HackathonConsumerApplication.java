@@ -68,7 +68,7 @@ public class HackathonConsumerApplication implements CommandLineRunner {
 
 		Door door1 = new Door();
 		door1.setId(1L);
-		door1.setName("From receptionAre to Lobby");
+		door1.setName("From reception Area to Lobby");
 		doorRepository.save(door1);
 		Door door2 = new Door();
 		door2.setId(2L);

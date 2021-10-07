@@ -27,11 +27,22 @@ public class WebSocketController {
         return armRepository.findAll();
     }
 
-    @MessageMapping("door")
-    @SendTo("topic/messages")
-    public List<Door> sendDoor() {
+    @MessageMapping("/door")
+    @SendTo("/topic/messages")
+    public List<Door> greetinxsssg() throws Exception {
+//        Thread.sleep(1000); // simulated delay
+//        List<Door> all =
+//        int v = (int) ((Math.random() * ((all.size() - 1) + 1)) + 1);
         return doorRepository.findAll();
     }
+
+//    @MessageMapping("door")
+//    @SendTo("topic/message")
+//    public Door sendDoor() {
+//        List<Door> all = doorRepository.findAll();
+//        int v = (int) ((Math.random() * ((all.size() - 1) + 1)) + 1);
+//        return all.get(v);
+//    }
 
     @MessageMapping("router")
     @SendTo("topic/messages")
