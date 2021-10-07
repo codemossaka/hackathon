@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   dbhackathon:
-    container_name: hackathon_db_consumer
+    container_name: db_hackathon
     image: postgres:latest
     restart: unless-stopped
     networks:
