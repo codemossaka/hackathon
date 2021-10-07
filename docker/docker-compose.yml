@@ -9,11 +9,13 @@ services:
     working_dir: /producerservice
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - EUREKA_INSTANCE_HOSTNAME=${HOSTNAME}
-      - REGISTRY_HOST=eurekaservice
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://dbconsumer:5432/${POSTGRES_DATABASE_NAME}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_DATABASE_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_DATABASE_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     tty: true
     volumes:
-      - ../producer-service:/producerservice
+      - ../hackathon-producer:/producerservice
     restart: unless-stopped
     ports:
       - "8989:8080"
@@ -46,14 +48,12 @@ services:
     working_dir: /consumerservice
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - EUREKA_INSTANCE_HOSTNAME=${HOSTNAME}
       - SPRING_DATASOURCE_URL=jdbc:postgresql://dbconsumer:5432/${POSTGRES_DATABASE_NAME}
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_DATABASE_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_DATABASE_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - REGISTRY_HOST=eurekaservice
     volumes:
-      - ../consumer-service:/consumerservice
+      - ../hackathon-consumer:/consumerservice
     tty: true
     restart: unless-stopped
     ports:
