@@ -1,29 +1,7 @@
 version: '2.1'
 
 services:
-  hackathon_producer:
-    container_name: hackathon_producer
-    build:
-      context: ../hackathon-producer
-      dockerfile: ./docker/Dockerfile
-    working_dir: /producerservice
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://dbconsumer:5432/${POSTGRES_DATABASE_NAME}
-      - SPRING_DATASOURCE_USERNAME=${POSTGRES_DATABASE_USER}
-      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_DATABASE_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    tty: true
-    volumes:
-      - ../hackathon-producer:/producerservice
-    restart: unless-stopped
-    ports:
-      - "8989:8080"
-    command: mvn clean spring-boot:run
-    networks:
-      - hackathon_bridge
-
-  dbconsumer:
+  dbhackathon:
     container_name: hackathon_db_consumer
     image: postgres:latest
     restart: unless-stopped
@@ -40,6 +18,31 @@ services:
       - ../../config/postgress/consumer:/var/lib/postgresql/data/
 
 
+  hackathon_producer:
+    container_name: hackathon_producer
+    build:
+      context: ../hackathon-producer
+      dockerfile: ./docker/Dockerfile
+    working_dir: /producerservice
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://dbhackathon:5432/${POSTGRES_DATABASE_NAME}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_DATABASE_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_DATABASE_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    tty: true
+    volumes:
+      - ../hackathon-producer:/producerservice
+    restart: unless-stopped
+    ports:
+      - "8989:8080"
+    command: mvn clean spring-boot:run
+    depends_on:
+      - dbhackathon
+    networks:
+      - hackathon_bridge
+
+
   consumerservice:
     container_name: hackathon_consumer
     build:
@@ -48,7 +51,7 @@ services:
     working_dir: /consumerservice
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://dbconsumer:5432/${POSTGRES_DATABASE_NAME}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://dbhackathon:5432/${POSTGRES_DATABASE_NAME}
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_DATABASE_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_DATABASE_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -62,7 +65,7 @@ services:
       - hackathon_bridge
     command: mvn clean spring-boot:run
     depends_on:
-      - dbconsumer
+      - dbhackathon
 
   zoo1:
     image: zookeeper:3.4.9
