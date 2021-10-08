@@ -36,27 +36,28 @@ public class KafkaConsumer {
         try {
             userEventDtos = mapper.readValue(message, new TypeReference<List<UserEventDto>>() {
             });
-            template.convertAndSend("/topic/userEvent", userEventDtos);
         } catch (JsonProcessingException e) {
             log.warn("Невозможно распарсить событие из producer: " + message);
             throw new RuntimeException("Невозможно распарсить сообщение из producer: " + message);
         }
-        saveUserEvent(userEventDtos);
+        List<UserEvent> userEvents = saveUserEvent(userEventDtos);
+        template.convertAndSend("/topic/userEvent", userEvents);
     }
 
-    private void saveUserEvent(List<UserEventDto> userEventDtos) {
-//        List<UserEvent> userEvents = new LinkedList<>();
+    private List<UserEvent> saveUserEvent(List<UserEventDto> userEventDtos) {
+        List<UserEvent> userEvents = new LinkedList<>();
         for (UserEventDto userEventDto : userEventDtos) {
             UserEvent userEvent = new UserEvent();
             userEvent.setId(userEvent.getId());
-            userEvent.setUser(userRepository.getById(userEventDto.getUserId()));
-            userEvent.setDoor(doorRepository.getById(userEventDto.getDoorId()));
-            userEvent.setEntry(roomRepository.getById(userEventDto.getEntryRoomId()));
-            userEvent.setExit(roomRepository.getById(userEventDto.getExitRoomId()));
+            userEvent.setUser(userRepository.findById(userEventDto.getUserId()).get());
+            userEvent.setDoor(doorRepository.findById(userEventDto.getDoorId()).get());
+            userEvent.setEntry(roomRepository.findById(userEventDto.getEntryRoomId()).get());
+            userEvent.setExit(roomRepository.findById(userEventDto.getExitRoomId()).get());
             userEvent.setCreatedAt(userEventDto.getCreatedAt());
-            userEventRepository.save(userEvent);
+            UserEvent savedUser = userEventRepository.save(userEvent);
+            userEvents.add(savedUser);
         }
-//        return userEvents;
+        return userEvents;
     }
 
 }
