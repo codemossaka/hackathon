@@ -13,6 +13,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import ru.sberbank.hackathonproducer.dto.UserEvent;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -23,7 +24,7 @@ public class KafkaConfig {
     private String bootstrapServer;
 
     @Bean
-    public ProducerFactory<String, UserEvent> producerFactory() {
+    public ProducerFactory<String, List<UserEvent>> producerFactory() {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
@@ -33,7 +34,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, UserEvent> kafkaTemplate() {
+    public KafkaTemplate<String, List<UserEvent>> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }
