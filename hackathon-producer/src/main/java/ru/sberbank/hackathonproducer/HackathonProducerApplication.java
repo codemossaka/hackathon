@@ -65,7 +65,7 @@ public class HackathonProducerApplication implements CommandLineRunner {
 			userEvent.setUserId(1L);
 			userEvent.setDoorId(1L);
 			userEvent.setEntryRoomId(2L);
-			userEvent.setExitRoomId(null);
+			userEvent.setExitRoomId(7L);
 			producerService.produce(userEvent);
 			Thread.sleep(5000);
 //			из лобби в guest room
@@ -109,7 +109,7 @@ public class HackathonProducerApplication implements CommandLineRunner {
 			userEvent5.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
 			userEvent5.setUserId(1L);
 			userEvent5.setDoorId(1L);
-			userEvent5.setEntryRoomId(null);
+			userEvent5.setEntryRoomId(7L);
 			userEvent5.setExitRoomId(2L);
 			producerService.produce(userEvent5);
 		}
