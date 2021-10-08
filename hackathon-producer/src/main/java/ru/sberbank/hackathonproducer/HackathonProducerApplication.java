@@ -24,57 +24,10 @@ public class HackathonProducerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		int count = 0;
 		while (true){
 			// Пользователь с улицы заходить в лобби, из лобби в guest room
 			Thread.sleep(20000);
-			UserEvent userEvent = new UserEvent();
-			userEvent.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-			userEvent.setUserId(1L);
-			userEvent.setDoorId(1L);
-			userEvent.setEntryRoomId(2L);
-			userEvent.setExitRoomId(7L);
-
-//			из лобби в guest room
-			UserEvent userEvent1 = new UserEvent();
-			userEvent1.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-			userEvent1.setUserId(1L);
-			userEvent1.setDoorId(6L);
-			userEvent1.setEntryRoomId(6L);
-			userEvent1.setExitRoomId(2L);
-			//	из guest room в лобби
-
-			UserEvent userEvent2 = new UserEvent();
-			userEvent2.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-			userEvent2.setUserId(1L);
-			userEvent2.setDoorId(6L);
-			userEvent2.setEntryRoomId(2L);
-			userEvent2.setExitRoomId(6L);
-			// из лобби на 100A
-
-			UserEvent userEvent3 = new UserEvent();
-			userEvent3.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-			userEvent3.setUserId(1L);
-			userEvent3.setDoorId(2L);
-			userEvent3.setEntryRoomId(3L);
-			userEvent3.setExitRoomId(2L);
-			// из 100A в лобби
-
-			UserEvent userEvent4 = new UserEvent();
-			userEvent4.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-			userEvent4.setUserId(1L);
-			userEvent4.setDoorId(2L);
-			userEvent4.setEntryRoomId(2L);
-			userEvent4.setExitRoomId(3L);
-			// из лобби на свободу
-
-			UserEvent userEvent5 = new UserEvent();
-			userEvent5.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-			userEvent5.setUserId(1L);
-			userEvent5.setDoorId(1L);
-			userEvent5.setEntryRoomId(7L);
-			userEvent5.setExitRoomId(2L);
-
 //			Пользователь сидит в 100B
 			UserEvent userEvent6 = new UserEvent();
 			userEvent6.setId(1L);
@@ -107,8 +60,59 @@ public class HackathonProducerApplication implements CommandLineRunner {
 			userEvent9.setEntryRoomId(6L);
 			userEvent9.setExitRoomId(3L);
 
-			List<UserEvent> list = new ArrayList<>(Arrays.asList(userEvent, userEvent1, userEvent2, userEvent3, userEvent4, userEvent5, userEvent6, userEvent7, userEvent8, userEvent9));
+			List<UserEvent> list = new ArrayList<>(Arrays.asList(getUser1(count), userEvent6, userEvent7, userEvent8, userEvent9));
 			producerService.produce(list);
+			count++;
+			if (count == 4) {
+				count = 0;
+			}
 		}
+	}
+
+	private UserEvent getUser1(int count) {
+		UserEvent userEvent = new UserEvent();
+		userEvent.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
+		userEvent.setUserId(1L);
+		userEvent.setDoorId(1L);
+		userEvent.setEntryRoomId(2L);
+		userEvent.setExitRoomId(7L);
+//			из лобби в guest room
+		UserEvent userEvent1 = new UserEvent();
+		userEvent1.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
+		userEvent1.setUserId(1L);
+		userEvent1.setDoorId(6L);
+		userEvent1.setEntryRoomId(6L);
+		userEvent1.setExitRoomId(2L);
+		//	из guest room в лобби
+		UserEvent userEvent2 = new UserEvent();
+		userEvent2.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
+		userEvent2.setUserId(1L);
+		userEvent2.setDoorId(6L);
+		userEvent2.setEntryRoomId(2L);
+		userEvent2.setExitRoomId(6L);
+		// из лобби на 100A
+		UserEvent userEvent3 = new UserEvent();
+		userEvent3.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
+		userEvent3.setUserId(1L);
+		userEvent3.setDoorId(2L);
+		userEvent3.setEntryRoomId(3L);
+		userEvent3.setExitRoomId(2L);
+		// из 100A в лобби
+		UserEvent userEvent4 = new UserEvent();
+		userEvent4.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
+		userEvent4.setUserId(1L);
+		userEvent4.setDoorId(2L);
+		userEvent4.setEntryRoomId(2L);
+		userEvent4.setExitRoomId(3L);
+		// из лобби на свободу
+		UserEvent userEvent5 = new UserEvent();
+		userEvent5.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
+		userEvent5.setUserId(1L);
+		userEvent5.setDoorId(1L);
+		userEvent5.setEntryRoomId(7L);
+		userEvent5.setExitRoomId(2L);
+
+		List<UserEvent> userEvents = new ArrayList<>(Arrays.asList(userEvent, userEvent1, userEvent2, userEvent3, userEvent4, userEvent5));
+		return userEvents.get(count);
 	}
 }
