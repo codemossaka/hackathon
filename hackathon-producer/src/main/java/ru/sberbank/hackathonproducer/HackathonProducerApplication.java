@@ -23,7 +23,7 @@ public class HackathonProducerApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		int count = 0;
 		while (true){
-			Thread.sleep(20000);
+			Thread.sleep(5000);
 //			Пользователь сидит в 100B
 			UserEvent userEvent6 = new UserEvent();
 			userEvent6.setId(1L);
