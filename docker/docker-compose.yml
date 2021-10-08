@@ -25,11 +25,7 @@ services:
       dockerfile: ./docker/Dockerfile
     working_dir: /producerservice
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://dbhackathon:5432/${POSTGRES_DATABASE_NAME}
-      - SPRING_DATASOURCE_USERNAME=${POSTGRES_DATABASE_USER}
-      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_DATABASE_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
     tty: true
     volumes:
       - ../hackathon-producer:/producerservice
@@ -37,8 +33,6 @@ services:
     ports:
       - "8989:8080"
     command: mvn clean spring-boot:run
-    depends_on:
-      - dbhackathon
     networks:
       - hackathon_bridge
 
@@ -50,7 +44,6 @@ services:
       dockerfile: ./docker/Dockerfile
     working_dir: /consumerservice
     environment:
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://dbhackathon:5432/${POSTGRES_DATABASE_NAME}
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_DATABASE_USER}
