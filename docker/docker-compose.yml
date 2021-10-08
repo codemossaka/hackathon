@@ -50,6 +50,7 @@ services:
       dockerfile: ./docker/Dockerfile
     working_dir: /consumerservice
     environment:
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://dbhackathon:5432/${POSTGRES_DATABASE_NAME}
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_DATABASE_USER}
@@ -72,6 +73,8 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - hackathon_bridge
     ports:
       - "22181:2181"
 
@@ -81,6 +84,8 @@ services:
       - zookeeper
     ports:
       - "29092:29092"
+    networks:
+      - hackathon_bridge
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
