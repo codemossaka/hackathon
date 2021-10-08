@@ -15,6 +15,8 @@ import ru.sberbank.hackathonconsumer.respositories.RoomRepository;
 import ru.sberbank.hackathonconsumer.respositories.UserEventRepository;
 import ru.sberbank.hackathonconsumer.respositories.UserRepository;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @AllArgsConstructor
@@ -24,29 +26,31 @@ public class KafkaConsumer {
     private final RoomRepository roomRepository;
     private final UserEventRepository userEventRepository;
     private final SimpMessagingTemplate template;
-    @KafkaListener(topics = "user-events-murtazali", groupId = "group_id")
+    @KafkaListener(topics = "user-events", groupId = "group_id")
     public void consume(String message) {
         ObjectMapper mapper = new ObjectMapper();
-        UserEventDto userEventDto = null;
+        List<UserEventDto> userEventDtos;
         try {
-            userEventDto = mapper.readValue(message, UserEventDto.class);
-            template.convertAndSend("/topic/userEvent", userEventDto);
+            userEventDtos = mapper.readValue(message, List.class);
+            template.convertAndSend("/topic/userEvent", userEventDtos);
         } catch (JsonProcessingException e) {
             log.warn("Невозможно распарсить событие из producer: " + message);
             throw new RuntimeException("Невозможно распарсить сообщение из producer: " + message);
         }
-        saveUserEvent(userEventDto);
+        saveUserEvent(userEventDtos);
     }
 
-    private void saveUserEvent(UserEventDto userEventDto) {
-        UserEvent userEvent = new UserEvent();
-        userEvent.setId(userEvent.getId());
-        userEvent.setUser(userRepository.getById(userEventDto.getUserId()));
-        userEvent.setDoor(doorRepository.getById(userEventDto.getDoorId()));
-        userEvent.setEntry(roomRepository.getById(userEventDto.getEntryRoomId()));
-        userEvent.setExit(roomRepository.getById(userEventDto.getExitRoomId()));
-        userEvent.setCreatedAt(userEventDto.getCreatedAt());
-        userEventRepository.save(userEvent);
+    private void saveUserEvent(List<UserEventDto> userEventDtos) {
+        for (UserEventDto userEventDto: userEventDtos) {
+            UserEvent userEvent = new UserEvent();
+            userEvent.setId(userEvent.getId());
+            userEvent.setUser(userRepository.getById(userEventDto.getUserId()));
+            userEvent.setDoor(doorRepository.getById(userEventDto.getDoorId()));
+            userEvent.setEntry(roomRepository.getById(userEventDto.getEntryRoomId()));
+            userEvent.setExit(roomRepository.getById(userEventDto.getExitRoomId()));
+            userEvent.setCreatedAt(userEventDto.getCreatedAt());
+            userEventRepository.save(userEvent);
+        }
     }
 
 }

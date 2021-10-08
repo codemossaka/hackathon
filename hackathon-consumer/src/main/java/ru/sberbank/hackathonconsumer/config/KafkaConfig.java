@@ -13,6 +13,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import ru.sberbank.hackathonconsumer.dto.UserEventDto;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -22,7 +23,7 @@ public class KafkaConfig {
     private String bootstrapServer;
 
     @Bean
-    public ConsumerFactory<String, UserEventDto> consumerFactory() {
+    public ConsumerFactory<String, List<UserEventDto>> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
@@ -30,12 +31,12 @@ public class KafkaConfig {
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(),
-        new JsonDeserializer<>(UserEventDto.class));
+        new JsonDeserializer<>(List.class));
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, UserEventDto> kafkaListenerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, UserEventDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, List<UserEventDto>> kafkaListenerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, List<UserEventDto>> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
