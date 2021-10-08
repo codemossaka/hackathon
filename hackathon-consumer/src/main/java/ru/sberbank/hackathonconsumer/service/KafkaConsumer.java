@@ -1,6 +1,7 @@
 package ru.sberbank.hackathonconsumer.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ public class KafkaConsumer {
         ObjectMapper mapper = new ObjectMapper();
         List<UserEventDto> userEventDtos;
         try {
-            userEventDtos = mapper.readValue(message, List.class);
+            userEventDtos = mapper.readValue(message, new TypeReference<List<UserEventDto>>(){});
             template.convertAndSend("/topic/userEvent", userEventDtos);
         } catch (JsonProcessingException e) {
             log.warn("Невозможно распарсить событие из producer: " + message);
