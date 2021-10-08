@@ -34,7 +34,7 @@ services:
       - "8989:8080"
     command: mvn clean spring-boot:run
     networks:
-      - ha ckathon_bridge
+      - hackathon_bridge
 
 
   consumerservice:
