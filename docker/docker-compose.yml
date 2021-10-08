@@ -73,6 +73,8 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - hackathon_bridge
     ports:
       - "22181:2181"
 
@@ -82,6 +84,8 @@ services:
       - zookeeper
     ports:
       - "29092:29092"
+    networks:
+      - hackathon_bridge
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
