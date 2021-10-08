@@ -52,7 +52,7 @@ public class KafkaConsumer {
             userEvent.setEntry(roomRepository.getById(userEventDto.getEntryRoomId()));
             userEvent.setExit(roomRepository.getById(userEventDto.getExitRoomId()));
             userEvent.setCreatedAt(userEventDto.getCreatedAt());
-
+            userEventRepository.save(userEvent);
 //            userEvents.add(userEventRepository.saveAndFlush(userEvent));
         }
 //        return userEvents;
