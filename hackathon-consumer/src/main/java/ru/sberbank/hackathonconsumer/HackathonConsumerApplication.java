@@ -122,13 +122,13 @@ public class HackathonConsumerApplication implements CommandLineRunner {
 
 		User user1 = new User();
 		user1.setId(1L);
-		user1.setFullname("Ессонга Пея-Бамба");
+		user1.setFullname("Рабадангаджиев Муртазали Магомедгаджиевич");
 		user1.setPhoneRouter(router1);
-		user1.setArm(arm1);
+		user1.setArm(arm3);
 		userRepository.save(user1);
 		User user2 = new User();
 		user2.setId(2L);
-		user2.setFullname("Рабадангаджиев Муртазали Магомедгаджиевич");
+		user2.setFullname("Ессонга Пея-Бамба");
 		user2.setPhoneRouter(router2);
 		user2.setArm(arm2);
 		userRepository.save(user2);
@@ -136,7 +136,7 @@ public class HackathonConsumerApplication implements CommandLineRunner {
 		user3.setId(3L);
 		user3.setFullname("Лазаренко Сергей Александрович");
 		user3.setPhoneRouter(router3);
-		user3.setArm(arm3);
+		user3.setArm(arm1);
 		userRepository.save(user3);
 		User user4 = new User();
 		user4.setId(4L);
