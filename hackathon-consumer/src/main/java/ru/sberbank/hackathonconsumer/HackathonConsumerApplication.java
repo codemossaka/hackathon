@@ -114,7 +114,11 @@ public class HackathonConsumerApplication implements CommandLineRunner {
 		Room room6 = new Room();
 		room6.setId(6L);
 		room6.setName("100D");
-		roomRepository.saveAndFlush(room6);
+		roomRepository.save(room6);
+		Room room7 = new Room();
+		room7.setId(7L);
+		room7.setName("Outside");
+		roomRepository.saveAndFlush(room7);
 
 		User user1 = new User();
 		user1.setId(1L);
