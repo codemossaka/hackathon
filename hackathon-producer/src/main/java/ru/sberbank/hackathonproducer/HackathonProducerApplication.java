@@ -59,7 +59,7 @@ public class HackathonProducerApplication implements CommandLineRunner {
 			List<UserEvent> list = new ArrayList<>(Arrays.asList(getUser1(count), userEvent6, userEvent7, userEvent8, userEvent9));
 			producerService.produce(list);
 			count++;
-			if (count == 4) {
+			if (count == 6) {
 				count = 0;
 			}
 		}
