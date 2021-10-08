@@ -53,7 +53,7 @@ public class HackathonConsumerApplication implements CommandLineRunner {
 		Arm arm3 = new Arm();
 		arm3.setId(3L);
 		arm3.setRouter(router1);
-		arm3.setStatus("logout");
+		arm3.setStatus("login");
 		armRepository.save(arm3);
 		Arm arm4 = new Arm();
 		arm4.setId(4L);
