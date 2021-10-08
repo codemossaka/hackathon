@@ -13,7 +13,7 @@ public class ProducerService {
     private final KafkaTemplate<String, UserEvent> kafkaTemplate;
 
 //    @Value("${spring.kafka.template.default-topic}")
-    private final String TOPIC ="user-event";
+    private final String TOPIC ="user-events";
 
 
 
