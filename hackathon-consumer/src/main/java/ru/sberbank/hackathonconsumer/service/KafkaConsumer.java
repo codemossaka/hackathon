@@ -24,7 +24,7 @@ public class KafkaConsumer {
     private final RoomRepository roomRepository;
     private final UserEventRepository userEventRepository;
     private final SimpMessagingTemplate template;
-    @KafkaListener(topics = "user-event", groupId = "group_id")
+    @KafkaListener(topics = "user-events", groupId = "group_id")
     public void consume(String message) {
         ObjectMapper mapper = new ObjectMapper();
         UserEventDto userEventDto = null;
