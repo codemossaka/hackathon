@@ -7,10 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.sberbank.hackathonproducer.dto.UserEvent;
 import ru.sberbank.hackathonproducer.service.ProducerService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -26,7 +23,6 @@ public class HackathonProducerApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		int count = 0;
 		while (true){
-			// Пользователь с улицы заходить в лобби, из лобби в guest room
 			Thread.sleep(20000);
 //			Пользователь сидит в 100B
 			UserEvent userEvent6 = new UserEvent();
@@ -70,6 +66,7 @@ public class HackathonProducerApplication implements CommandLineRunner {
 	}
 
 	private UserEvent getUser1(int count) {
+		// Пользователь с улицы заходить в лобби, из лобби в guest room
 		UserEvent userEvent = new UserEvent();
 		userEvent.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
 		userEvent.setUserId(1L);
@@ -112,7 +109,7 @@ public class HackathonProducerApplication implements CommandLineRunner {
 		userEvent5.setEntryRoomId(7L);
 		userEvent5.setExitRoomId(2L);
 
-		List<UserEvent> userEvents = new ArrayList<>(Arrays.asList(userEvent, userEvent1, userEvent2, userEvent3, userEvent4, userEvent5));
+		List<UserEvent> userEvents = new LinkedList<>(Arrays.asList(userEvent, userEvent1, userEvent2, userEvent3, userEvent4, userEvent5));
 		return userEvents.get(count);
 	}
 }
