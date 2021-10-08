@@ -15,7 +15,7 @@ services:
     ports:
       - "5455:5432"
     volumes:
-      - ../../config/postgress/consumer:/var/lib/postgresql/data/
+      - ../../settings/postgress/consumer:/var/lib/postgresql/data/
 
 
   hackathon_producer:
@@ -92,7 +92,7 @@ services:
     container_name: ui
     build:
       context: ../hackathon-frontend
-      dockerfile: docker/Dockerfile
+      dockerfile: ./docker/Dockerfile
     tty: true
     restart: unless-stopped
     ports:
