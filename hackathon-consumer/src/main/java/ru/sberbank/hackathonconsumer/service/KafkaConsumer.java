@@ -28,12 +28,14 @@ public class KafkaConsumer {
     private final RoomRepository roomRepository;
     private final UserEventRepository userEventRepository;
     private final SimpMessagingTemplate template;
+
     @KafkaListener(topics = "user-events", groupId = "group_id")
     public void consume(String message) {
         ObjectMapper mapper = new ObjectMapper();
         List<UserEventDto> userEventDtos;
         try {
-            userEventDtos = mapper.readValue(message, new TypeReference<List<UserEventDto>>(){});
+            userEventDtos = mapper.readValue(message, new TypeReference<List<UserEventDto>>() {
+            });
             template.convertAndSend("/topic/userEvent", userEventDtos);
         } catch (JsonProcessingException e) {
             log.warn("Невозможно распарсить событие из producer: " + message);
@@ -44,7 +46,7 @@ public class KafkaConsumer {
 
     private void saveUserEvent(List<UserEventDto> userEventDtos) {
 //        List<UserEvent> userEvents = new LinkedList<>();
-        for (UserEventDto userEventDto: userEventDtos) {
+        for (UserEventDto userEventDto : userEventDtos) {
             UserEvent userEvent = new UserEvent();
             userEvent.setId(userEvent.getId());
             userEvent.setUser(userRepository.getById(userEventDto.getUserId()));
