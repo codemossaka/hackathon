@@ -18,5 +18,5 @@ public class User {
     private Arm arm;
 
     @ManyToOne
-    private Router router;
+    private Router phoneRouter;
 }
