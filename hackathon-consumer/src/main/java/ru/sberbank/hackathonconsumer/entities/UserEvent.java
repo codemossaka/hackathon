@@ -4,11 +4,13 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 @Entity
 @Table(name = "userEvent")
 public class UserEvent {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,5 +27,5 @@ public class UserEvent {
     @ManyToOne
     private Room entry;
 
-    private Date createdAt;
+    private Timestamp createdAt;
 }

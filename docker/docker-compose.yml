@@ -88,6 +88,18 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  ui:
+    container_name: ui
+    build:
+      context: ../../hackathon-frontend
+      dockerfile: docker/Dockerfile
+    tty: true
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - hackathon_bridge
 networks:
   hackathon_bridge:
     driver: bridge
