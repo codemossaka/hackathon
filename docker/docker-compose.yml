@@ -34,7 +34,7 @@ services:
       - "8989:8080"
     command: mvn clean spring-boot:run
     networks:
-      - hackathon_bridge
+      - ha ckathon_bridge
 
 
   consumerservice:
@@ -91,7 +91,7 @@ services:
   ui:
     container_name: ui
     build:
-      context: ../../hackathon-frontend
+      context: ../hackathon-frontend
       dockerfile: docker/Dockerfile
     tty: true
     restart: unless-stopped
