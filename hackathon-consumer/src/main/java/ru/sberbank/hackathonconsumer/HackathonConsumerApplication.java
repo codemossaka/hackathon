@@ -68,7 +68,7 @@ public class HackathonConsumerApplication implements CommandLineRunner {
 
 		Door door1 = new Door();
 		door1.setId(1L);
-		door1.setName("From reception Area to Lobby");
+		door1.setName("From street to Lobby");
 		doorRepository.save(door1);
 		Door door2 = new Door();
 		door2.setId(2L);
@@ -85,31 +85,35 @@ public class HackathonConsumerApplication implements CommandLineRunner {
 		Door door5 = new Door();
 		door5.setId(5L);
 		door5.setName("From Lobby to 100D");
-		doorRepository.saveAndFlush(door5);
+		doorRepository.save(door5);
+		Door door6 = new Door();
+		door6.setId(6L);
+		door6.setName("From Lobby to guest area");
+		doorRepository.saveAndFlush(door6);
 
 		Room room1 = new Room();
 		room1.setId(1L);
-		room1.setName("free area");
+		room1.setName("Guest Area");
 		roomRepository.save(room1);
 		Room room2 = new Room();
 		room2.setId(2L);
-		room2.setName("100A");
+		room2.setName("Lobby");
 		roomRepository.save(room2);
 		Room room3 = new Room();
 		room3.setId(3L);
-		room3.setName("100B");
+		room3.setName("100A");
 		roomRepository.save(room3);
 		Room room4 = new Room();
 		room4.setId(4L);
-		room4.setName("100C");
+		room4.setName("100B");
 		roomRepository.save(room4);
 		Room room5 = new Room();
 		room5.setId(5L);
-		room5.setName("100D");
+		room5.setName("100C");
 		roomRepository.save(room5);
 		Room room6 = new Room();
 		room6.setId(6L);
-		room6.setName("Lobby");
+		room6.setName("100D");
 		roomRepository.saveAndFlush(room6);
 
 		User user1 = new User();
