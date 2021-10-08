@@ -34,15 +34,16 @@ public class KafkaConsumer {
         List<UserEventDto> userEventDtos;
         try {
             userEventDtos = mapper.readValue(message, new TypeReference<List<UserEventDto>>(){});
+            template.convertAndSend("/topic/userEvent", userEventDtos);
         } catch (JsonProcessingException e) {
             log.warn("Невозможно распарсить событие из producer: " + message);
             throw new RuntimeException("Невозможно распарсить сообщение из producer: " + message);
         }
-        template.convertAndSend("/topic/userEvent", saveUserEvent(userEventDtos));
+        saveUserEvent(userEventDtos);
     }
 
-    private List<UserEvent> saveUserEvent(List<UserEventDto> userEventDtos) {
-        List<UserEvent> userEvents = new LinkedList<>();
+    private void saveUserEvent(List<UserEventDto> userEventDtos) {
+//        List<UserEvent> userEvents = new LinkedList<>();
         for (UserEventDto userEventDto: userEventDtos) {
             UserEvent userEvent = new UserEvent();
             userEvent.setId(userEvent.getId());
@@ -52,9 +53,9 @@ public class KafkaConsumer {
             userEvent.setExit(roomRepository.getById(userEventDto.getExitRoomId()));
             userEvent.setCreatedAt(userEventDto.getCreatedAt());
 
-            userEvents.add(userEventRepository.saveAndFlush(userEvent));
+//            userEvents.add(userEventRepository.saveAndFlush(userEvent));
         }
-        return userEvents;
+//        return userEvents;
     }
 
 }

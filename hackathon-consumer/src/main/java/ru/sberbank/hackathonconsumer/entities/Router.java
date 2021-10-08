@@ -2,9 +2,7 @@ package ru.sberbank.hackathonconsumer.entities;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -12,6 +10,7 @@ import javax.persistence.Table;
 public class Router {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
